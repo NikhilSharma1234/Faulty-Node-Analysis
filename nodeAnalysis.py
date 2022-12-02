@@ -2,6 +2,8 @@
 # CPE 400
 # Faulty Node Analysis Project
 
+from pyvis.network import Network
+
 def main():
     # Create a new matrix object
     newMatrix = Matrix(3)
@@ -31,6 +33,22 @@ def main():
 
     # Print newMatrix
     print(newMatrix)
+
+    # Simulates pyvis graph visualizer
+    net = Network()
+
+    net.add_node(1, label='Node A')
+    net.add_node(2, label='Node B')
+    net.add_node(3, label='Node C')
+    net.add_node(4, label='Node D')
+    net.add_node(5, label='Node E')
+
+    net.add_edge(1, 2, value=5, label="5")
+    net.add_edge(1, 3, value=1, label="1")
+    net.add_edge(1, 4, value=7, label="7")
+    net.add_edge(1, 5, value=12, label="12")
+
+    net.show('nodes.html')
 
 class Matrix:
     # Initialize variables
@@ -67,6 +85,9 @@ class Matrix:
     # Remove weight from links
     def remove(self, row, col):
         self.matrix[row][col] = 0
+
+    def doDijikstra(self, start):
+        print("")
 
 # Ensures that the main() function is ran before anything
 if __name__ == "__main__":
