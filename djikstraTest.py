@@ -17,7 +17,7 @@ class Graph(object):
         for node1, edges in graph.items():
             for node2, value in edges.items():
                 if graph[node2].get(node1, False) == False:
-                    graph[node2][node1] = value        
+                    graph[node2][node1] = value   
         return graph
     #Returns all nodes
     def returnNodes(self):
@@ -31,7 +31,7 @@ class Graph(object):
         return edges
     #Returns value of an edge between two nodes
     def returnValue(self, node1, node2):
-        return self.graph[node1][node2]
+        return self.graph[node1][node2][0]
 
 def dijkstra(graph, firstNode):
     unvisitedNodes = list(graph.returnNodes())   
@@ -78,15 +78,15 @@ def main():
     for node in nodes:
         graphDictionary[node] = {}
     
-    graphDictionary["A"]["B"] = 5
-    graphDictionary["A"]["D"] = 4
-    graphDictionary["B"]["F"] = 1
-    graphDictionary["B"]["C"] = 3
-    graphDictionary["C"]["G"] = 5
-    graphDictionary["C"]["H"] = 4
-    graphDictionary["H"]["G"] = 1
-    graphDictionary["E"]["F"] = 2
-    graphDictionary["E"]["H"] = 2
+    graphDictionary["A"]["B"] = [5, 'wireless']
+    graphDictionary["A"]["D"] = [4, 'wired']
+    graphDictionary["B"]["F"] = [1, 'wired']
+    graphDictionary["B"]["C"] = [3, 'wired']
+    graphDictionary["C"]["G"] = [5, 'wired']
+    graphDictionary["C"]["H"] = [4, 'wireless']
+    graphDictionary["H"]["G"] = [1, 'wired']
+    graphDictionary["E"]["F"] = [2, 'wired']
+    graphDictionary["E"]["H"] = [2, 'wireless']
 
     graph = Graph(graphDictionary, nodes)
     previousNodes, shortestPathValues = dijkstra(graph=graph, firstNode="A")
