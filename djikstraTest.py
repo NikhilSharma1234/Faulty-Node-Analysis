@@ -2,6 +2,7 @@
 #Running dijkstra's on the graph
 
 import sys
+from pyvis.network import Network
  
 class Graph(object):
     #Constructor
@@ -31,7 +32,7 @@ class Graph(object):
         return edges
     #Returns value of an edge between two nodes
     def returnValue(self, node1, node2):
-        return self.graph[node1][node2][0]
+        return self.graph[node1][node2]
 
 def dijkstra(graph, firstNode):
     unvisitedNodes = list(graph.returnNodes())   
@@ -50,7 +51,7 @@ def dijkstra(graph, firstNode):
                 closestNode = node
         neighbors = graph.returnEdges(closestNode)
         for neighbor in neighbors:
-            newPathLength = shortestPathValues[closestNode] + graph.returnValue(closestNode, neighbor)
+            newPathLength = shortestPathValues[closestNode] + graph.returnValue(closestNode, neighbor)[0]
             if newPathLength < shortestPathValues[neighbor]:
                 shortestPathValues[neighbor] = newPathLength
                 previousNodes[neighbor] = closestNode
@@ -72,6 +73,21 @@ def display(previousNodes, graphDictionary, firstNode, lastNode):
         print(path[i] + "   -" + str(graphDictionary[path[i]][path[i+1]]) + "->   ", end ="")
     print(firstNode)
 
+def generateVisual(graphDictionary, nodes):
+    # Simulates pyvis graph visualizer
+    net = Network()
+
+    for node in nodes:
+        net.add_node(node, label=str(node))
+
+    for edge in graphDictionary:
+        for data in graphDictionary[edge]:
+            net.add_edge(str(edge), str(data), value=2, label=str(graphDictionary[edge][data][0]) + ' ' + graphDictionary[edge][data][1])
+        
+
+    net.show('nodes.html')
+
+
 def main():
     nodes = ["A", "B", "C", "D", "E", "F", "G", "H"]
     graphDictionary = {}
@@ -89,6 +105,9 @@ def main():
     graphDictionary["E"]["H"] = [2, 'wireless']
 
     graph = Graph(graphDictionary, nodes)
+
+    generateVisual(graphDictionary, nodes)
+
     previousNodes, shortestPathValues = dijkstra(graph=graph, firstNode="A")
     
     #Display the dijksta path from A to G
