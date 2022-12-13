@@ -61,6 +61,43 @@ def dijkstra(graph, firstNode):
     
     return previousNodes, shortestPathValues
 
+def dijkstraMod(graph, firstNode):
+    unvisitedNodes = list(graph.returnNodes())   
+    shortestPathValues = {}
+    #Set distance to all nodes as infinity
+    for node in unvisitedNodes:
+        shortestPathValues[node] = [sys.maxsize, ""]
+    #Set distance to starting node as 0
+    shortestPathValues[firstNode][0] = 0
+    previousNodes = {}
+    #Find the closest node and update the shortest path to it
+    while unvisitedNodes:
+        closestNode = unvisitedNodes[0]
+        for node in unvisitedNodes:
+            if shortestPathValues[node][0] < shortestPathValues[closestNode][0]:
+                closestNode = node
+        neighbors = graph.returnEdges(closestNode)
+        wired = False
+        for neighbor in neighbors:
+            newPathLength = shortestPathValues[closestNode][0] + graph.returnValue(closestNode, neighbor)[0]
+            if newPathLength < shortestPathValues[neighbor][0] and graph.returnValue(closestNode, neighbor)[1] == "wired":
+                wired = True
+                shortestPathValues[neighbor][0] = newPathLength
+                shortestPathValues[neighbor][1] = graph.returnValue(closestNode, neighbor)[1]
+                previousNodes[neighbor] = closestNode
+        if wired == False:
+            for neighbor in neighbors:
+                newPathLength = shortestPathValues[closestNode][0] + graph.returnValue(closestNode, neighbor)[0]
+            if newPathLength < shortestPathValues[neighbor][0]:
+                wired = True
+                shortestPathValues[neighbor][0] = newPathLength
+                shortestPathValues[neighbor][1] = graph.returnValue(closestNode, neighbor)[1]
+                previousNodes[neighbor] = closestNode
+                
+        unvisitedNodes.remove(closestNode)
+    
+    return previousNodes, shortestPathValues
+   
 def display(previousNodes, graphDictionary, firstNode, lastNode):
     path = []
     node = lastNode
@@ -115,10 +152,12 @@ def main():
 
     generateVisual(graphDictionary, nodes)
 
-    previousNodes, shortestPathValues = dijkstra(graph=graph, firstNode="A")
+    previousNodes1, shortestPathValues1 = dijkstra(graph=graph, firstNode="A")
+    previousNodes2, shortestPathValues2 = dijkstraMod(graph=graph, firstNode="A")
 
     #Display the dijksta path from A to G
-    display(previousNodes, graphDictionary, firstNode="A", lastNode="F")
+    display(previousNodes1, graphDictionary1, firstNode="A", lastNode="F")
+    display(previousNodes2, graphDictionary2, firstNode="A", lastNode="F")
     
     #Console prints the path from G to A with the edge weights
 if __name__ == "__main__":
