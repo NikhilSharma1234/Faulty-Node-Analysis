@@ -110,7 +110,7 @@ def display(previousNodes, graphDictionary, firstNode, lastNode):
     
     for i in range(0, len(path)-1):
         if graphDictionary[path[i]][path[i+1]][1] == "wireless":
-            randomNum = random.randint(0,4)
+            randomNum = random.randint(0,3)
             if randomNum == 0:
                 raise Exception("Wireless node has failed")
         else:
@@ -136,17 +136,21 @@ def generateVisual(graphDictionary, nodes):
 
 
 def main():
-    nodes = ["A", "B", "C", "D", "E", "F"]
+    nodes = ["A", "B", "C", "D", "E", "F", "G", "H"]
+    types = ["wireless", "wired"]
     graphDictionary = {}
     for node in nodes:
         graphDictionary[node] = {}
     
-    graphDictionary["A"]["B"] = [3, 'wireless']
-    graphDictionary["A"]["C"] = [3, 'wired']
-    graphDictionary["B"]["D"] = [2, 'wired']
-    graphDictionary["D"]["F"] = [1, 'wired']
-    graphDictionary["C"]["E"] = [2, 'wired']
-    graphDictionary["E"]["F"] = [1, 'wired']
+    graphDictionary["A"]["B"] = [random.randint(1,5), random.choice(list(types))]
+    graphDictionary["A"]["C"] = [random.randint(1,5), random.choice(list(types))]
+    graphDictionary["B"]["D"] = [random.randint(1,5), random.choice(list(types))]
+    graphDictionary["C"]["D"] = [random.randint(1,5), random.choice(list(types))]
+    graphDictionary["C"]["G"] = [random.randint(1,5), random.choice(list(types))]
+    graphDictionary["D"]["G"] = [random.randint(1,5), random.choice(list(types))]
+    graphDictionary["D"]["E"] = [random.randint(1,5), random.choice(list(types))]
+    graphDictionary["D"]["F"] = [random.randint(1,5), random.choice(list(types))]
+    graphDictionary["F"]["H"] = [random.randint(1,5), random.choice(list(types))]
 
     graph = Graph(graphDictionary, nodes)
 
@@ -155,9 +159,11 @@ def main():
     previousNodes1, shortestPathValues1 = dijkstra(graph=graph, firstNode="A")
     previousNodes2, shortestPathValues2 = dijkstraMod(graph=graph, firstNode="A")
 
+    targetNode = random.choice(list(nodes))
+    
     #Display the dijksta path from A to G
-    display(previousNodes1, graphDictionary, firstNode="A", lastNode="F")
-    display(previousNodes2, graphDictionary, firstNode="A", lastNode="F")
+    display(previousNodes1, graphDictionary, firstNode="A", lastNode=targetNode)
+    display(previousNodes2, graphDictionary, firstNode="A", lastNode=targetNode)
     
     #Console prints the path from G to A with the edge weights
 if __name__ == "__main__":
