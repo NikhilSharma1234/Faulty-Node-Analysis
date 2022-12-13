@@ -156,8 +156,8 @@ def main():
     previousNodes2, shortestPathValues2 = dijkstraMod(graph=graph, firstNode="A")
 
     #Display the dijksta path from A to G
-    display(previousNodes1, graphDictionary1, firstNode="A", lastNode="F")
-    display(previousNodes2, graphDictionary2, firstNode="A", lastNode="F")
+    display(previousNodes1, graphDictionary, firstNode="A", lastNode="F")
+    display(previousNodes2, graphDictionary, firstNode="A", lastNode="F")
     
     #Console prints the path from G to A with the edge weights
 if __name__ == "__main__":
