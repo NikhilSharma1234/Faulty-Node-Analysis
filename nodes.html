@@ -88,8 +88,8 @@
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "A", "label": "A", "shape": "dot"}, {"color": "#97c2fc", "id": "B", "label": "B", "shape": "dot"}, {"color": "#97c2fc", "id": "C", "label": "C", "shape": "dot"}, {"color": "#97c2fc", "id": "D", "label": "D", "shape": "dot"}, {"color": "#97c2fc", "id": "E", "label": "E", "shape": "dot"}, {"color": "#97c2fc", "id": "F", "label": "F", "shape": "dot"}, {"color": "#97c2fc", "id": "G", "label": "G", "shape": "dot"}, {"color": "#97c2fc", "id": "H", "label": "H", "shape": "dot"}]);
-                  edges = new vis.DataSet([{"from": "A", "label": "5 wireless", "to": "B", "value": 2}, {"from": "A", "label": "4 wired", "to": "D", "value": 2}, {"from": "B", "label": "1 wired", "to": "F", "value": 2}, {"from": "B", "label": "3 wired", "to": "C", "value": 2}, {"from": "C", "label": "5 wired", "to": "G", "value": 2}, {"from": "C", "label": "4 wireless", "to": "H", "value": 2}, {"from": "E", "label": "2 wired", "to": "F", "value": 2}, {"from": "E", "label": "2 wireless", "to": "H", "value": 2}, {"from": "G", "label": "1 wired", "to": "H", "value": 2}]);
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "A", "label": "A", "shape": "dot"}, {"color": "#97c2fc", "id": "B", "label": "B", "shape": "dot"}, {"color": "#97c2fc", "id": "C", "label": "C", "shape": "dot"}, {"color": "#97c2fc", "id": "D", "label": "D", "shape": "dot"}, {"color": "#97c2fc", "id": "E", "label": "E", "shape": "dot"}, {"color": "#97c2fc", "id": "F", "label": "F", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"from": "A", "label": "3 wireless", "to": "B", "value": 2}, {"from": "A", "label": "3 wired", "to": "C", "value": 2}, {"from": "B", "label": "2 wired", "to": "D", "value": 2}, {"from": "C", "label": "2 wired", "to": "E", "value": 2}, {"from": "D", "label": "1 wired", "to": "F", "value": 2}, {"from": "E", "label": "1 wired", "to": "F", "value": 2}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });

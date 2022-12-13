@@ -3,6 +3,7 @@
 
 import sys
 from pyvis.network import Network
+import random
  
 class Graph(object):
     #Constructor
@@ -39,21 +40,22 @@ def dijkstra(graph, firstNode):
     shortestPathValues = {}
     #Set distance to all nodes as infinity
     for node in unvisitedNodes:
-        shortestPathValues[node] = sys.maxsize
+        shortestPathValues[node] = [sys.maxsize, ""]
     #Set distance to starting node as 0
-    shortestPathValues[firstNode] = 0
+    shortestPathValues[firstNode][0] = 0
     previousNodes = {}
     #Find the closest node and update the shortest path to it
     while unvisitedNodes:
         closestNode = unvisitedNodes[0]
         for node in unvisitedNodes:
-            if shortestPathValues[node] < shortestPathValues[closestNode]:
+            if shortestPathValues[node][0] < shortestPathValues[closestNode][0]:
                 closestNode = node
         neighbors = graph.returnEdges(closestNode)
         for neighbor in neighbors:
-            newPathLength = shortestPathValues[closestNode] + graph.returnValue(closestNode, neighbor)[0]
-            if newPathLength < shortestPathValues[neighbor]:
-                shortestPathValues[neighbor] = newPathLength
+            newPathLength = shortestPathValues[closestNode][0] + graph.returnValue(closestNode, neighbor)[0]
+            if newPathLength < shortestPathValues[neighbor][0]:
+                shortestPathValues[neighbor][0] = newPathLength
+                shortestPathValues[neighbor][1] = graph.returnValue(closestNode, neighbor)[1]
                 previousNodes[neighbor] = closestNode
         unvisitedNodes.remove(closestNode)
     
@@ -70,6 +72,14 @@ def display(previousNodes, graphDictionary, firstNode, lastNode):
     path.append(firstNode)
     
     for i in range(0, len(path)-1):
+        if graphDictionary[path[i]][path[i+1]][1] == "wireless":
+            randomNum = random.randint(0,4)
+            if randomNum == 0:
+                raise Exception("Wireless node has failed")
+        else:
+            randomNum = random.randint(0, 19)
+            if randomNum == 0:
+                raise Exception("Wired node has failed")
         print(path[i] + "   -" + str(graphDictionary[path[i]][path[i+1]]) + "->   ", end ="")
     print(firstNode)
 
@@ -85,33 +95,30 @@ def generateVisual(graphDictionary, nodes):
             net.add_edge(str(edge), str(data), value=2, label=str(graphDictionary[edge][data][0]) + ' ' + graphDictionary[edge][data][1])
         
 
-    net.show('nodes.html')
+    # net.show('nodes.html')
 
 
 def main():
-    nodes = ["A", "B", "C", "D", "E", "F", "G", "H"]
+    nodes = ["A", "B", "C", "D", "E", "F"]
     graphDictionary = {}
     for node in nodes:
         graphDictionary[node] = {}
     
-    graphDictionary["A"]["B"] = [5, 'wireless']
-    graphDictionary["A"]["D"] = [4, 'wired']
-    graphDictionary["B"]["F"] = [1, 'wired']
-    graphDictionary["B"]["C"] = [3, 'wired']
-    graphDictionary["C"]["G"] = [5, 'wired']
-    graphDictionary["C"]["H"] = [4, 'wireless']
-    graphDictionary["H"]["G"] = [1, 'wired']
-    graphDictionary["E"]["F"] = [2, 'wired']
-    graphDictionary["E"]["H"] = [2, 'wireless']
+    graphDictionary["A"]["B"] = [3, 'wireless']
+    graphDictionary["A"]["C"] = [3, 'wired']
+    graphDictionary["B"]["D"] = [2, 'wired']
+    graphDictionary["D"]["F"] = [1, 'wired']
+    graphDictionary["C"]["E"] = [2, 'wired']
+    graphDictionary["E"]["F"] = [1, 'wired']
 
     graph = Graph(graphDictionary, nodes)
 
     generateVisual(graphDictionary, nodes)
 
     previousNodes, shortestPathValues = dijkstra(graph=graph, firstNode="A")
-    
+
     #Display the dijksta path from A to G
-    display(previousNodes, graphDictionary, firstNode="A", lastNode="G")
+    display(previousNodes, graphDictionary, firstNode="A", lastNode="F")
     
     #Console prints the path from G to A with the edge weights
 if __name__ == "__main__":
